@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>do you love me?</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+    <main class="container" id="container">
+      <header>
+        <span>do you love me?</span>
+      </header>
+
+      <p class="message" id="message" aria-live="polite"></p>
+
+      <div class="btn-pack">
+        <button id="yes" type="button" value="yes">Yes</button>
+        <button id="no" type="button" value="no">No</button>
+      </div>
+    </main>
+
+    <div class="modal hidden" id="modal" aria-hidden="true">
+      <button class="closeModal" id="closeModal" type="button" aria-label="Close date modal">x</button>
+
+      <div class="modalContent">
+        <header>let's go out on a date</header>
+        <h3>pick a date</h3>
+
+        <div class="flexContainer">
+          <div class="dateCard" data-day="Friday" data-plan="Sunset walk" tabindex="0">
+            <span>Friday</span>
+            <small>Sunset walk</small>
+          </div>
+          <div class="dateCard" data-day="Saturday" data-plan="Amala date" tabindex="0">
+            <span>Saturday</span>
+            <small>Amala date</small>
+          </div>
+          <div class="dateCard" data-day="Sunday" data-plan="Movie night" tabindex="0">
+            <span>Sunday</span>
+            <small>Movie night</small>
+          </div>
+          <div class="dateCard" data-day="Monday" data-plan="Picnic" tabindex="0">
+            <span>Monday</span>
+            <small>Picnic</small>
+          </div>
+          <div class="dateCard" data-day="Tuesday" data-plan="Ice cream" tabindex="0">
+            <span>Tuesday</span>
+            <small>Ice cream</small>
+          </div>
+          <div class="dateCard" data-day="Wednesday" data-plan="Mini road trip" tabindex="0">
+            <span>Wednesday</span>
+            <small>Mini road trip</small>
+          </div>
+        </div>
+
+        <div class="selectionSummary" id="selectionSummary">No date picked yet</div>
+        <button class="confirmDate" id="confirmDate" type="button">Confirm date</button>
+        <div class="finalChoice" id="finalChoice" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="celebration-screen hidden" id="celebrationScreen" aria-live="polite">
+      <div class="celebration-content glass-panel">
+        <p class="tiny-tag">you said yes</p>
+        <h2>it's a date!</h2>
+        <p id="celebrationText">We are going on a dreamy adventure together.</p>
+        <div class="celebration-actions">
+          <button class="sendEmailBtn" id="sendEmailBtn" type="button">Send response via email</button>
+          <button class="restartBtn" id="restartBtn" type="button">Start over</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="src/index.js"></script>
+  </body>
+</html>
