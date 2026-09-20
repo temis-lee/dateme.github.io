@@ -8,7 +8,7 @@ const container = document.getElementById("container");
 const selectionSummary = document.getElementById("selectionSummary");
 const finalChoice = document.getElementById("finalChoice");
 const confirmDateBtn = document.getElementById("confirmDate");
-const dateCards = [...document.querySelectorAll(".dateCard")];
+const dateGrid = document.getElementById("dateGrid");
 const celebrationScreen = document.getElementById("celebrationScreen");
 const celebrationText = document.getElementById("celebrationText");
 const restartBtn = document.getElementById("restartBtn");
@@ -41,6 +41,69 @@ const colors = [
 ];
 
 const soundEnabled = true;
+
+const getLocalDateTime = () => new Date();
+
+const getDateCards = () => [...document.querySelectorAll(".dateCard")];
+
+const getUpcomingDates = (now = getLocalDateTime()) => {
+  const plans = [
+    "Sunset walk",
+    "Amala date",
+    "Movie night",
+    "Picnic",
+    "Ice cream",
+    "Mini road trip",
+    "Stargazing"
+  ];
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(now);
+    date.setDate(now.getDate() + index);
+
+    const fullDay = date.toLocaleDateString(undefined, {
+      weekday: "long",
+      month: "short",
+      day: "numeric"
+    });
+
+    return {
+      day: date.toLocaleDateString(undefined, { weekday: "long" }),
+      shortDate: date.toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      fullDate: fullDay,
+      plan: plans[index % plans.length],
+      iso: date.toISOString().slice(0, 10)
+    };
+  });
+};
+
+const renderDateCards = () => {
+  if (!dateGrid) return;
+
+  const upcomingDates = getUpcomingDates();
+
+  dateGrid.innerHTML = upcomingDates
+    .map(
+      (item) => `
+        <div class="dateCard" data-day="${item.fullDate}" data-plan="${item.plan}" data-iso="${item.iso}" tabindex="0">
+          <span>${item.day}</span>
+          <small>${item.shortDate}</small>
+          <small>${item.plan}</small>
+        </div>
+      `
+    )
+    .join("");
+
+  dateGrid.querySelectorAll(".dateCard").forEach((card) => {
+    card.addEventListener("click", () => setSelectedDate(card));
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        setSelectedDate(card);
+      }
+    });
+  });
+};
 
 const playTone = (freq, duration, type = "sine", volume = 0.06) => {
   if (!soundEnabled || !window.AudioContext) return;
@@ -205,10 +268,11 @@ const moveNoButton = () => {
 const setSelectedDate = (card) => {
   selectedDate = {
     day: card.dataset.day,
-    plan: card.dataset.plan
+    plan: card.dataset.plan,
+    iso: card.dataset.iso || ""
   };
 
-  dateCards.forEach((item) => item.classList.toggle("selected", item === card));
+  getDateCards().forEach((item) => item.classList.toggle("selected", item === card));
   selectionSummary.textContent = `you picked ${selectedDate.day} for ${selectedDate.plan}`;
   finalChoice.textContent = "";
   finalChoice.classList.remove("warning");
@@ -251,17 +315,7 @@ closeModal.addEventListener("click", () => {
   selectedDate = null;
   selectionSummary.textContent = "No date picked yet";
   finalChoice.textContent = "";
-  dateCards.forEach((card) => card.classList.remove("selected"));
-});
-
-dateCards.forEach((card) => {
-  card.addEventListener("click", () => setSelectedDate(card));
-  card.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      setSelectedDate(card);
-    }
-  });
+  getDateCards().forEach((card) => card.classList.remove("selected"));
 });
 
 confirmDateBtn.addEventListener("click", () => {
@@ -300,7 +354,7 @@ restartBtn.addEventListener("click", () => {
   selectedDate = null;
   selectionSummary.textContent = "No date picked yet";
   finalChoice.textContent = "";
-  dateCards.forEach((card) => card.classList.remove("selected"));
+  document.querySelectorAll(".dateCard").forEach((card) => card.classList.remove("selected"));
   msg.textContent = "choose wisely";
   msg.style.color = "#2f1d1d";
   noBtn.style.display = "inline-block";
@@ -325,7 +379,9 @@ window.addEventListener("resize", () => {
 });
 
 window.addEventListener("load", () => {
+  renderDateCards();
   createHeartBackground();
 });
 
+renderDateCards();
 noBtn.style.position = "relative";
