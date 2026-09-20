@@ -2,6 +2,7 @@ const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const msg = document.getElementById("message");
 const modal = document.getElementById("modal");
+const preludeScreen = document.getElementById("preludeScreen");
 const closeModal = document.getElementById("closeModal");
 const container = document.getElementById("container");
 const selectionSummary = document.getElementById("selectionSummary");
@@ -161,6 +162,30 @@ const pulseButton = (element) => {
   element.classList.add("pulse");
 };
 
+const openDateModal = () => {
+  modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
+  container.classList.add("hidden");
+  preludeScreen.classList.add("hidden");
+  preludeScreen.setAttribute("aria-hidden", "true");
+};
+
+const showPreludeScreen = () => {
+  preludeScreen.classList.remove("hidden");
+  preludeScreen.setAttribute("aria-hidden", "false");
+  container.classList.add("hidden");
+  modal.classList.add("hidden");
+  modal.setAttribute("aria-hidden", "true");
+
+  playTone(523.25, 0.14, "triangle", 0.04);
+  playTone(659.25, 0.18, "triangle", 0.04);
+  playTone(783.99, 0.22, "triangle", 0.04);
+
+  setTimeout(() => {
+    openDateModal();
+  }, 1800);
+};
+
 const moveNoButton = () => {
   const padding = 20;
   const maxX = Math.max(window.innerWidth - noBtn.offsetWidth - padding, 0);
@@ -215,9 +240,7 @@ noBtn.addEventListener("click", () => {
 });
 
 yesBtn.addEventListener("click", () => {
-  modal.classList.remove("hidden");
-  modal.setAttribute("aria-hidden", "false");
-  container.classList.add("hidden");
+  showPreludeScreen();
   playTone(523.25, 0.15, "sine", 0.04);
 });
 
