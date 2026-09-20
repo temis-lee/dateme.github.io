@@ -167,6 +167,76 @@ header {
   display: none !important;
 }
 
+.prelude-screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(255, 245, 247, 0.98), rgba(255, 209, 220, 0.94));
+  z-index: 18;
+  overflow: hidden;
+}
+
+.prelude-heart-wrap {
+  display: grid;
+  place-items: center;
+  width: min(220px, 56vw);
+  height: min(220px, 56vw);
+  margin-bottom: 1rem;
+}
+
+.prelude-heart {
+  font-size: clamp(5rem, 15vw, 10rem);
+  color: #ff5a8a;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(255, 90, 138, 0.55);
+  animation: heartZoom 1.8s cubic-bezier(0.17, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes heartZoom {
+  0% {
+    transform: scale(0.2) rotate(-10deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.5) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.8) rotate(6deg);
+    opacity: 0;
+  }
+}
+
+.prelude-line {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 2.4rem);
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  color: var(--text-color);
+  opacity: 0;
+  animation: lineFade 0.7s ease-out 0.35s forwards;
+}
+
+.prelude-love {
+  animation-delay: 0.75s;
+}
+
+@keyframes lineFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .modal {
   position: fixed;
   inset: 0;
